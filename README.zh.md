@@ -36,7 +36,7 @@
 </div>
 <hr>
 
-[English](./README.md)
+[English](./README.md) • [安装](#安装) • [对外 API](#对外-api)
 
 <hr>
 
