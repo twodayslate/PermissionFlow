@@ -398,6 +398,6 @@ let configuration = PermissionFlowConfiguration(
 - 当辅助功能权限可用时，包会优先使用 AX 做更精确的窗口跟踪；Window Server 查询作为启动和兜底方案
 - 这个包不会绕过 macOS 的系统安全模型，它只是帮助用户更顺畅地完成系统授权流程
 
-## License
+## 许可证
 
-MIT
+基于 MIT 许可证授权。

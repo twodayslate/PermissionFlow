@@ -400,4 +400,4 @@ The repository includes an `Example` macOS app that demonstrates all supported p
 
 ## License
 
-MIT
+Licensed under the MIT License.
