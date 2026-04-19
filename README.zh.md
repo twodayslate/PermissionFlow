@@ -50,6 +50,8 @@ PermissionFlow
 
 它会自动打开对应的系统隐私页；对于支持拖拽式授权的权限页，还会显示一个悬浮辅助窗口，跟随 `System Settings` 窗口移动，并允许用户直接把当前 `.app` 拖入授权列表。
 
+<img alt="PermissionFlow" src="https://github.com/user-attachments/assets/f65b0dc8-ab16-4d23-8566-0c882be97a59" />
+
 ## 功能特性
 
 - 自动打开目标 `System Settings` 隐私权限页
