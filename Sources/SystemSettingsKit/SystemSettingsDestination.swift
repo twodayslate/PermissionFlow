@@ -4,55 +4,103 @@ import UIKit
 #endif
 
 #if os(macOS)
+/// Anchor points for navigating to specific sections within the Displays settings pane.
+/// These anchors allow direct navigation to subsections of the macOS System Settings Displays panel.
 @available(macOS 13.0, *)
 public enum DisplaySettingsAnchor: String, CaseIterable, Sendable {
+    /// Opens the Advanced section in Displays settings.
     case advancedSection
+    /// Opens ambient light and True Tone related settings.
     case ambienceSection
+    /// Opens display arrangement and positioning controls.
     case arrangementSection
+    /// Opens display characteristics and calibration options.
     case characteristicSection
+    /// Opens the main Displays section.
     case displaysSection
+    /// Opens miscellaneous display settings.
     case miscellaneousSection
+    /// Opens Night Shift settings.
     case nightShiftSection
+    /// Opens color profile settings.
     case profileSection
+    /// Opens resolution settings.
     case resolutionSection
+    /// Opens Sidecar settings.
     case sidecarSection
 }
 
+/// Anchor points for navigating to specific sections within the Privacy & Security settings pane.
+/// These anchors allow direct navigation to subsections of the macOS System Settings Privacy & Security panel.
 @available(macOS 13.0, *)
 public enum PrivacySecurityAnchor: String, CaseIterable, Sendable {
+    /// Opens the Advanced section in Privacy & Security.
     case advanced = "Advanced"
+    /// Opens FileVault settings.
     case fileVault = "FileVault"
+    /// Opens the Location Access Report section.
     case locationAccessReport = "Location_Access_Report"
+    /// Opens Lockdown Mode settings.
     case lockdownMode = "LockdownMode"
+    /// Opens Accessibility privacy permissions.
     case privacyAccessibility = "Privacy_Accessibility"
+    /// Opens Advertising privacy settings.
     case privacyAdvertising = "Privacy_Advertising"
+    /// Opens Full Disk Access permissions.
     case privacyAllFiles = "Privacy_AllFiles"
+    /// Opens Analytics privacy settings.
     case privacyAnalytics = "Privacy_Analytics"
+    /// Opens app bundle access permissions.
     case privacyAppBundles = "Privacy_AppBundles"
+    /// Opens audio capture permissions.
     case privacyAudioCapture = "Privacy_AudioCapture"
+    /// Opens Automation permissions.
     case privacyAutomation = "Privacy_Automation"
+    /// Opens Bluetooth permissions.
     case privacyBluetooth = "Privacy_Bluetooth"
+    /// Opens Calendar permissions.
     case privacyCalendars = "Privacy_Calendars"
+    /// Opens Camera permissions.
     case privacyCamera = "Privacy_Camera"
+    /// Opens Contacts permissions.
     case privacyContacts = "Privacy_Contacts"
+    /// Opens Developer Tools permissions.
     case privacyDevTools = "Privacy_DevTools"
+    /// Opens Files and Folders permissions.
     case privacyFilesAndFolders = "Privacy_FilesAndFolders"
+    /// Opens Focus permissions.
     case privacyFocus = "Privacy_Focus"
+    /// Opens HomeKit permissions.
     case privacyHomeKit = "Privacy_HomeKit"
+    /// Opens input and event monitoring permissions.
     case privacyListenEvent = "Privacy_ListenEvent"
+    /// Opens Location Services permissions.
     case privacyLocationServices = "Privacy_LocationServices"
+    /// Opens Media and Apple Music permissions.
     case privacyMedia = "Privacy_Media"
+    /// Opens Microphone permissions.
     case privacyMicrophone = "Privacy_Microphone"
+    /// Opens Motion and Fitness permissions.
     case privacyMotion = "Privacy_Motion"
+    /// Opens nudity detection privacy settings.
     case privacyNudityDetection = "Privacy_NudityDetection"
+    /// Opens passkey access permissions.
     case privacyPasskeyAccess = "Privacy_PasskeyAccess"
+    /// Opens Photos permissions.
     case privacyPhotos = "Privacy_Photos"
+    /// Opens Reminders permissions.
     case privacyReminders = "Privacy_Reminders"
+    /// Opens Remote Desktop permissions.
     case privacyRemoteDesktop = "Privacy_RemoteDesktop"
+    /// Opens Screen Recording permissions.
     case privacyScreenCapture = "Privacy_ScreenCapture"
+    /// Opens Speech Recognition permissions.
     case privacySpeechRecognition = "Privacy_SpeechRecognition"
+    /// Opens System Services privacy settings.
     case privacySystemServices = "Privacy_SystemServices"
+    /// Opens the main Security section.
     case security = "Security"
+    /// Opens Security Improvements recommendations.
     case securityImprovements = "SecurityImprovements"
 }
 #endif
