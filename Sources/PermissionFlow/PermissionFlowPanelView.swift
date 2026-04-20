@@ -35,29 +35,30 @@ struct PermissionFlowPanelView: View {
         HStack(alignment: .top, spacing: 3) {
             HeaderDirectionIcon(isDragging: controller.isDraggingApp)
             Text("permission_flow.panel.title", bundle: .module)
-                .font(.system(size: 17, weight: .semibold))
+                .font(.system(size: 16, weight: .semibold))
             Spacer()
-            if controller.isSettingsFrontmost == false {
+            HStack(alignment: .top, spacing: 3) {
+                if controller.isSettingsFrontmost == false {
+                    Button {
+                        controller.reopenCurrentSettingsPane()
+                    } label: {
+                        Image(systemName: "gear")
+                            .font(.system(size: 15, weight: .semibold))
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.primary, .secondary.opacity(0.35))
+                    }
+                    .buttonStyle(.borderless)
+                }
                 Button {
-                    controller.reopenCurrentSettingsPane()
+                    controller.closePanel()
                 } label: {
-                    Image(systemName: "gear")
-                        .font(.system(size: 14, weight: .semibold))
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 18, weight: .semibold))
                         .symbolRenderingMode(.palette)
                         .foregroundStyle(.primary, .secondary.opacity(0.35))
                 }
                 .buttonStyle(.borderless)
             }
-
-            Button {
-                controller.closePanel()
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.system(size: 18, weight: .semibold))
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.primary, .secondary.opacity(0.35))
-            }
-            .buttonStyle(.borderless)
         }
     }
 }

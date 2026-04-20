@@ -144,6 +144,11 @@ public extension SystemSettingsDestination {
 
 @available(macOS 13.0, *)
 public extension SystemSettingsDestination {
+    /// Privacy & Security home page.
+    static func privacy() -> Self {
+        Self(paneIdentifier: "com.apple.settings.PrivacySecurity.extension")
+    }
+
     /// Convenience helper for the Privacy & Security extension anchors.
     /// Example anchors include `Privacy_Advertising` and `Privacy_AllFiles`.
     static func privacy(anchor: String) -> Self {

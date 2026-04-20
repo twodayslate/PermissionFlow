@@ -26,6 +26,7 @@ struct ContentView: View {
                 }
                 .padding(.horizontal, 24)
                 .padding(.bottom, 24)
+                .environment(\.locale, .init(identifier: localizationTestLocale))
             }
             .frame(minWidth: 820, minHeight: 420)
             .navigationTitle("PermissionFlow Demo")
@@ -39,6 +40,7 @@ struct ContentView: View {
             }
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
+            .environment(\.locale, .init(identifier: localizationTestLocale))
         }
         .ignoresSafeArea()
         .frame(maxHeight: .infinity)
@@ -98,7 +100,6 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
             HStack {
                 PermissionFlowButton(pane: .fullDiskAccess)
-                    .environment(\.locale, .init(identifier: localizationTestLocale))
             }
 #endif
         }
@@ -137,41 +138,111 @@ struct ContentView: View {
             settingsURLGroup(
                 title: "Privacy & Security",
                 buttons: {
-                    settingsURLButton(title: "Privacy & Security Home", subtitle: "Navigate to Privacy & Security homepage", symbolName: "lock.shield", tint: .gray) { SystemSettings.open(SystemSettingsDestination(paneIdentifier: "com.apple.settings.PrivacySecurity.extension")) }
-                    settingsURLButton(title: "Advanced", subtitle: "Navigate to Privacy & Security > Advanced", symbolName: "gearshape.2", tint: .gray) { SystemSettings.open(.privacy(anchor: .advanced)) }
-                    settingsURLButton(title: "Security", subtitle: "Navigate to Privacy & Security > Security", symbolName: "shield", tint: .gray) { SystemSettings.open(.privacy(anchor: .security)) }
-                    settingsURLButton(title: "Security Improvements", subtitle: "Navigate to Privacy & Security > Security Improvements", symbolName: "shield.lefthalf.filled.badge.checkmark", tint: .green) { SystemSettings.open(.privacy(anchor: .securityImprovements)) }
-                    settingsURLButton(title: "FileVault", subtitle: "Navigate to Privacy & Security > FileVault", symbolName: "lock.rectangle", tint: .blue) { SystemSettings.open(.privacy(anchor: .fileVault)) }
-                    settingsURLButton(title: "Lockdown Mode", subtitle: "Navigate to Privacy & Security > Lockdown Mode", symbolName: "lock.trianglebadge.exclamationmark", tint: .red) { SystemSettings.open(.privacy(anchor: .lockdownMode)) }
-                    settingsURLButton(title: "Location Access Report", subtitle: "Navigate to Privacy & Security > Location Access Report", symbolName: "location.viewfinder", tint: .orange) { SystemSettings.open(.privacy(anchor: .locationAccessReport)) }
-                    settingsURLButton(title: "Advertising", subtitle: "Navigate to Privacy & Security > Advertising", symbolName: "megaphone", tint: .orange) { SystemSettings.open(.privacy(anchor: .privacyAdvertising)) }
-                    settingsURLButton(title: "Accessibility", subtitle: "Navigate to Privacy & Security > Accessibility", symbolName: "figure.wave", tint: .blue) { SystemSettings.open(.privacy(anchor: .privacyAccessibility)) }
-                    settingsURLButton(title: "Automation", subtitle: "Navigate to Privacy & Security > Automation", symbolName: "apple.terminal.on.rectangle", tint: .brown) { SystemSettings.open(.privacy(anchor: .privacyAutomation)) }
-                    settingsURLButton(title: "App Management", subtitle: "Navigate to Privacy & Security > App Management", symbolName: "shippingbox", tint: .brown) { SystemSettings.open(.privacy(anchor: .privacyAppBundles)) }
-                    settingsURLButton(title: "Analytics & Improvements", subtitle: "Navigate to Privacy & Security > Analytics & Improvements", symbolName: "chart.bar", tint: .cyan) { SystemSettings.open(.privacy(anchor: .privacyAnalytics)) }
-                    settingsURLButton(title: "Audio Capture", subtitle: "Navigate to Privacy & Security > Audio Capture", symbolName: "waveform", tint: .purple) { SystemSettings.open(.privacy(anchor: .privacyAudioCapture)) }
-                    settingsURLButton(title: "Bluetooth", subtitle: "Navigate to Privacy & Security > Bluetooth", symbolName: "bolt.horizontal.circle", tint: .blue) { SystemSettings.open(.privacy(anchor: .privacyBluetooth)) }
-                    settingsURLButton(title: "Calendar", subtitle: "Navigate to Privacy & Security > Calendar", symbolName: "calendar", tint: .red) { SystemSettings.open(.privacy(anchor: .privacyCalendars)) }
-                    settingsURLButton(title: "Camera", subtitle: "Navigate to Privacy & Security > Camera", symbolName: "camera", tint: .pink) { SystemSettings.open(.privacy(anchor: .privacyCamera)) }
-                    settingsURLButton(title: "Contacts", subtitle: "Navigate to Privacy & Security > Contacts", symbolName: "person.crop.circle.badge.checkmark", tint: .blue) { SystemSettings.open(.privacy(anchor: .privacyContacts)) }
-                    settingsURLButton(title: "Developer Tools", subtitle: "Navigate to Privacy & Security > Developer Tools", symbolName: "hammer", tint: .orange) { SystemSettings.open(.privacy(anchor: .privacyDevTools)) }
-                    settingsURLButton(title: "Files and Folders", subtitle: "Navigate to Privacy & Security > Files and Folders", symbolName: "folder", tint: .teal) { SystemSettings.open(.privacy(anchor: .privacyFilesAndFolders)) }
-                    settingsURLButton(title: "Focus", subtitle: "Navigate to Privacy & Security > Focus", symbolName: "moon.circle", tint: .indigo) { SystemSettings.open(.privacy(anchor: .privacyFocus)) }
-                    settingsURLButton(title: "HomeKit", subtitle: "Navigate to Privacy & Security > HomeKit", symbolName: "house", tint: .mint) { SystemSettings.open(.privacy(anchor: .privacyHomeKit)) }
-                    settingsURLButton(title: "Input Monitoring", subtitle: "Navigate to Privacy & Security > Input Monitoring", symbolName: "keyboard", tint: .mint) { SystemSettings.open(.privacy(anchor: .privacyListenEvent)) }
-                    settingsURLButton(title: "Location Services", subtitle: "Navigate to Privacy & Security > Location Services", symbolName: "location", tint: .orange) { SystemSettings.open(.privacy(anchor: .privacyLocationServices)) }
-                    settingsURLButton(title: "Media & Apple Music", subtitle: "Navigate to Privacy & Security > Media & Apple Music", symbolName: "music.note.list", tint: .red) { SystemSettings.open(.privacy(anchor: .privacyMedia)) }
-                    settingsURLButton(title: "Microphone", subtitle: "Navigate to Privacy & Security > Microphone", symbolName: "mic", tint: .red) { SystemSettings.open(.privacy(anchor: .privacyMicrophone)) }
-                    settingsURLButton(title: "Motion & Fitness", subtitle: "Navigate to Privacy & Security > Motion & Fitness", symbolName: "figure.walk", tint: .green) { SystemSettings.open(.privacy(anchor: .privacyMotion)) }
-                    settingsURLButton(title: "Sensitive Content Warning", subtitle: "Navigate to Privacy & Security > Sensitive Content Warning", symbolName: "exclamationmark.shield", tint: .pink) { SystemSettings.open(.privacy(anchor: .privacyNudityDetection)) }
-                    settingsURLButton(title: "Keychain & Passkeys", subtitle: "Navigate to Privacy & Security > Passkey Access", symbolName: "key", tint: .yellow) { SystemSettings.open(.privacy(anchor: .privacyPasskeyAccess)) }
-                    settingsURLButton(title: "Photos", subtitle: "Navigate to Privacy & Security > Photos", symbolName: "photo", tint: .purple) { SystemSettings.open(.privacy(anchor: .privacyPhotos)) }
-                    settingsURLButton(title: "Reminders", subtitle: "Navigate to Privacy & Security > Reminders", symbolName: "list.bullet", tint: .blue) { SystemSettings.open(.privacy(anchor: .privacyReminders)) }
-                    settingsURLButton(title: "Remote Desktop", subtitle: "Navigate to Privacy & Security > Remote Desktop", symbolName: "desktopcomputer.and.arrow.down", tint: .cyan) { SystemSettings.open(.privacy(anchor: .privacyRemoteDesktop)) }
-                    settingsURLButton(title: "Screen Recording", subtitle: "Navigate to Privacy & Security > Screen Recording", symbolName: "display", tint: .green) { SystemSettings.open(.privacy(anchor: .privacyScreenCapture)) }
-                    settingsURLButton(title: "Speech Recognition", subtitle: "Navigate to Privacy & Security > Speech Recognition", symbolName: "waveform.badge.mic", tint: .orange) { SystemSettings.open(.privacy(anchor: .privacySpeechRecognition)) }
-                    settingsURLButton(title: "System Services", subtitle: "Navigate to Privacy & Security > System Services", symbolName: "gearshape.2.fill", tint: .gray) { SystemSettings.open(.privacy(anchor: .privacySystemServices)) }
-                    settingsURLButton(title: "Full Disk Access", subtitle: "Navigate to Privacy & Security > Full Disk Access", symbolName: "externaldrive", tint: .indigo) { SystemSettings.open(.privacy(anchor: .privacyAllFiles)) }
+                    settingsURLButton(title: "Privacy & Security Home", subtitle: "Navigate to Privacy & Security homepage", symbolName: "lock.shield", tint: .gray) {
+                        SystemSettings.open(.privacy())
+                    }
+                    settingsURLButton(title: "Advanced", subtitle: "Navigate to Privacy & Security > Advanced", symbolName: "gearshape.2", tint: .gray) {
+                        SystemSettings.open(.privacy(anchor: .advanced))
+                    }
+                    settingsURLButton(title: "Security", subtitle: "Navigate to Privacy & Security > Security", symbolName: "shield", tint: .gray) {
+                        SystemSettings.open(.privacy(anchor: .security))
+                    }
+                    settingsURLButton(title: "Security Improvements", subtitle: "Navigate to Privacy & Security > Security Improvements", symbolName: "shield.lefthalf.filled.badge.checkmark", tint: .green) {
+                        SystemSettings.open(.privacy(anchor: .securityImprovements))
+                    }
+                    settingsURLButton(title: "FileVault", subtitle: "Navigate to Privacy & Security > FileVault", symbolName: "lock.rectangle", tint: .blue) {
+                        SystemSettings.open(.privacy(anchor: .fileVault))
+                    }
+                    settingsURLButton(title: "Lockdown Mode", subtitle: "Navigate to Privacy & Security > Lockdown Mode", symbolName: "lock.trianglebadge.exclamationmark", tint: .red) {
+                        SystemSettings.open(.privacy(anchor: .lockdownMode))
+                    }
+                    settingsURLButton(title: "Location Access Report", subtitle: "Navigate to Privacy & Security > Location Access Report", symbolName: "location.viewfinder", tint: .orange) {
+                        SystemSettings.open(.privacy(anchor: .locationAccessReport))
+                    }
+                    settingsURLButton(title: "Advertising", subtitle: "Navigate to Privacy & Security > Advertising", symbolName: "megaphone", tint: .orange) {
+                        SystemSettings.open(.privacy(anchor: .privacyAdvertising))
+                    }
+                    settingsURLButton(title: "Accessibility", subtitle: "Navigate to Privacy & Security > Accessibility", symbolName: "figure.wave", tint: .blue) {
+                        SystemSettings.open(.privacy(anchor: .privacyAccessibility))
+                    }
+                    settingsURLButton(title: "Automation", subtitle: "Navigate to Privacy & Security > Automation", symbolName: "apple.terminal.on.rectangle", tint: .brown) {
+                        SystemSettings.open(.privacy(anchor: .privacyAutomation))
+                    }
+                    settingsURLButton(title: "App Management", subtitle: "Navigate to Privacy & Security > App Management", symbolName: "shippingbox", tint: .brown) {
+                        SystemSettings.open(.privacy(anchor: .privacyAppBundles))
+                    }
+                    settingsURLButton(title: "Analytics & Improvements", subtitle: "Navigate to Privacy & Security > Analytics & Improvements", symbolName: "chart.bar", tint: .cyan) {
+                        SystemSettings.open(.privacy(anchor: .privacyAnalytics))
+                    }
+                    settingsURLButton(title: "Audio Capture", subtitle: "Navigate to Privacy & Security > Audio Capture", symbolName: "waveform", tint: .purple) {
+                        SystemSettings.open(.privacy(anchor: .privacyAudioCapture))
+                    }
+                    settingsURLButton(title: "Bluetooth", subtitle: "Navigate to Privacy & Security > Bluetooth", symbolName: "bolt.horizontal.circle", tint: .blue) {
+                        SystemSettings.open(.privacy(anchor: .privacyBluetooth))
+                    }
+                    settingsURLButton(title: "Calendar", subtitle: "Navigate to Privacy & Security > Calendar", symbolName: "calendar", tint: .red) {
+                        SystemSettings.open(.privacy(anchor: .privacyCalendars))
+                    }
+                    settingsURLButton(title: "Camera", subtitle: "Navigate to Privacy & Security > Camera", symbolName: "camera", tint: .pink) {
+                        SystemSettings.open(.privacy(anchor: .privacyCamera))
+                    }
+                    settingsURLButton(title: "Contacts", subtitle: "Navigate to Privacy & Security > Contacts", symbolName: "person.crop.circle.badge.checkmark", tint: .blue) {
+                        SystemSettings.open(.privacy(anchor: .privacyContacts))
+                    }
+                    settingsURLButton(title: "Developer Tools", subtitle: "Navigate to Privacy & Security > Developer Tools", symbolName: "hammer", tint: .orange) {
+                        SystemSettings.open(.privacy(anchor: .privacyDevTools))
+                    }
+                    settingsURLButton(title: "Files and Folders", subtitle: "Navigate to Privacy & Security > Files and Folders", symbolName: "folder", tint: .teal) {
+                        SystemSettings.open(.privacy(anchor: .privacyFilesAndFolders))
+                    }
+                    settingsURLButton(title: "Focus", subtitle: "Navigate to Privacy & Security > Focus", symbolName: "moon.circle", tint: .indigo) {
+                        SystemSettings.open(.privacy(anchor: .privacyFocus))
+                    }
+                    settingsURLButton(title: "HomeKit", subtitle: "Navigate to Privacy & Security > HomeKit", symbolName: "house", tint: .mint) {
+                        SystemSettings.open(.privacy(anchor: .privacyHomeKit))
+                    }
+                    settingsURLButton(title: "Input Monitoring", subtitle: "Navigate to Privacy & Security > Input Monitoring", symbolName: "keyboard", tint: .mint) {
+                        SystemSettings.open(.privacy(anchor: .privacyListenEvent))
+                    }
+                    settingsURLButton(title: "Location Services", subtitle: "Navigate to Privacy & Security > Location Services", symbolName: "location", tint: .orange) {
+                        SystemSettings.open(.privacy(anchor: .privacyLocationServices))
+                    }
+                    settingsURLButton(title: "Media & Apple Music", subtitle: "Navigate to Privacy & Security > Media & Apple Music", symbolName: "music.note.list", tint: .red) {
+                        SystemSettings.open(.privacy(anchor: .privacyMedia))
+                    }
+                    settingsURLButton(title: "Microphone", subtitle: "Navigate to Privacy & Security > Microphone", symbolName: "mic", tint: .red) {
+                        SystemSettings.open(.privacy(anchor: .privacyMicrophone))
+                    }
+                    settingsURLButton(title: "Motion & Fitness", subtitle: "Navigate to Privacy & Security > Motion & Fitness", symbolName: "figure.walk", tint: .green) {
+                        SystemSettings.open(.privacy(anchor: .privacyMotion))
+                    }
+                    settingsURLButton(title: "Sensitive Content Warning", subtitle: "Navigate to Privacy & Security > Sensitive Content Warning", symbolName: "exclamationmark.shield", tint: .pink) {
+                        SystemSettings.open(.privacy(anchor: .privacyNudityDetection))
+                    }
+                    settingsURLButton(title: "Keychain & Passkeys", subtitle: "Navigate to Privacy & Security > Passkey Access", symbolName: "key", tint: .yellow) {
+                        SystemSettings.open(.privacy(anchor: .privacyPasskeyAccess))
+                    }
+                    settingsURLButton(title: "Photos", subtitle: "Navigate to Privacy & Security > Photos", symbolName: "photo", tint: .purple) {
+                        SystemSettings.open(.privacy(anchor: .privacyPhotos))
+                    }
+                    settingsURLButton(title: "Reminders", subtitle: "Navigate to Privacy & Security > Reminders", symbolName: "list.bullet", tint: .blue) {
+                        SystemSettings.open(.privacy(anchor: .privacyReminders))
+                    }
+                    settingsURLButton(title: "Remote Desktop", subtitle: "Navigate to Privacy & Security > Remote Desktop", symbolName: "desktopcomputer.and.arrow.down", tint: .cyan) {
+                        SystemSettings.open(.privacy(anchor: .privacyRemoteDesktop))
+                    }
+                    settingsURLButton(title: "Screen Recording", subtitle: "Navigate to Privacy & Security > Screen Recording", symbolName: "display", tint: .green) {
+                        SystemSettings.open(.privacy(anchor: .privacyScreenCapture))
+                    }
+                    settingsURLButton(title: "Speech Recognition", subtitle: "Navigate to Privacy & Security > Speech Recognition", symbolName: "waveform.badge.mic", tint: .orange) {
+                        SystemSettings.open(.privacy(anchor: .privacySpeechRecognition))
+                    }
+                    settingsURLButton(title: "System Services", subtitle: "Navigate to Privacy & Security > System Services", symbolName: "gearshape.2.fill", tint: .gray) {
+                        SystemSettings.open(.privacy(anchor: .privacySystemServices))
+                    }
+                    settingsURLButton(title: "Full Disk Access", subtitle: "Navigate to Privacy & Security > Full Disk Access", symbolName: "externaldrive", tint: .indigo) {
+                        SystemSettings.open(.privacy(anchor: .privacyAllFiles))
+                    }
                 }
             )
 
