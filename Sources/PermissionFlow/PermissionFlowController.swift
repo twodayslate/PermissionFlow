@@ -34,6 +34,8 @@ public final class PermissionFlowController: ObservableObject {
 
     private var panel: FloatingDropPanel?
     private var pendingLaunchSourceFrame: CGRect?
+    private var previousFrontmostApplicationPID: pid_t?
+    private var previousFrontmostApplicationBundleIdentifier: String?
     private var cancellables = Set<AnyCancellable>()
 
     public init(configuration: PermissionFlowConfiguration = .init()) {
@@ -54,6 +56,7 @@ public final class PermissionFlowController: ObservableObject {
     ) {
         closeOtherActivePanelIfNeeded()
 
+        rememberPreviousFrontmostApplication()
         currentPane = pane
         pendingLaunchSourceFrame = sourceFrameInScreen
         mergeDroppedApps(with: suggestedAppURLs)
@@ -86,7 +89,7 @@ public final class PermissionFlowController: ObservableObject {
         }
     }
 
-    public func closePanel() {
+    public func closePanel(returnToPreviousApp: Bool = false) {
         tracker.stopTracking()
         panel?.close()
         panel = nil
@@ -94,6 +97,10 @@ public final class PermissionFlowController: ObservableObject {
 
         if Self.activeController === self {
             Self.activeController = nil
+        }
+
+        if returnToPreviousApp {
+            reactivatePreviousFrontmostApplication()
         }
     }
 
@@ -182,6 +189,31 @@ public final class PermissionFlowController: ObservableObject {
         if let activeController = Self.activeController, activeController !== self {
             activeController.closePanel()
         }
+    }
+
+    private func rememberPreviousFrontmostApplication() {
+        let frontmostApplication = NSWorkspace.shared.frontmostApplication
+        guard frontmostApplication?.bundleIdentifier != systemSettingsBundleIdentifier else { return }
+        previousFrontmostApplicationPID = frontmostApplication?.processIdentifier
+        previousFrontmostApplicationBundleIdentifier = frontmostApplication?.bundleIdentifier
+    }
+
+    private func reactivatePreviousFrontmostApplication() {
+        defer {
+            previousFrontmostApplicationPID = nil
+            previousFrontmostApplicationBundleIdentifier = nil
+        }
+
+        if let previousFrontmostApplicationPID,
+           let application = NSRunningApplication(processIdentifier: previousFrontmostApplicationPID) {
+            application.activate(options: [.activateIgnoringOtherApps])
+            return
+        }
+
+        guard let previousFrontmostApplicationBundleIdentifier else { return }
+        NSRunningApplication.runningApplications(withBundleIdentifier: previousFrontmostApplicationBundleIdentifier)
+            .first?
+            .activate(options: [.activateIgnoringOtherApps])
     }
 
     private func presentPanel(_ panel: FloatingDropPanel?, for settingsFrame: CGRect) {

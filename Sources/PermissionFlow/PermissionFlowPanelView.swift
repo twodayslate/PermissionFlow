@@ -50,7 +50,7 @@ struct PermissionFlowPanelView: View {
                     .buttonStyle(.borderless)
                 }
                 Button {
-                    controller.closePanel()
+                    controller.closePanel(returnToPreviousApp: true)
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 18, weight: .semibold))
