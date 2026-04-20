@@ -12,12 +12,15 @@ import PermissionFlow
 #endif
 
 struct ContentView: View {
+    @State private var localizationTestLocale = "en"
+
     var body: some View {
 #if os(macOS)
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     heroSection
+                    localizationTestSection
                     permissionCardsSection
                     settingsURLTestSection
                 }
@@ -31,6 +34,7 @@ struct ContentView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 heroSection
+                localizationTestSection
                 settingsURLTestSection
             }
             .padding(.horizontal, 24)
@@ -62,6 +66,51 @@ struct ContentView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var localizationTestSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("PermissionFlow Localization Test")
+                    .font(.system(size: 24, weight: .bold))
+                Text("Switch the locale below to inject `.environment(\\.locale, .init(identifier: ...))` into the floating PermissionFlow panel.")
+                    .font(.system(size: 14))
+                    .foregroundStyle(.secondary)
+            }
+
+            Picker("Language", selection: $localizationTestLocale) {
+                Text("English").tag("en")
+                Text("简体中文").tag("zh-Hans")
+                Text("繁體中文").tag("zh-Hant")
+                Text("日本語").tag("ja")
+                Text("한국어").tag("ko")
+                Text("Français").tag("fr")
+                Text("Deutsch").tag("de")
+                Text("Español").tag("es")
+                Text("Português").tag("pt")
+                Text("Русский").tag("ru")
+                Text("العربية").tag("ar")
+            }
+
+#if os(macOS)
+            Text("Then open any PermissionFlow card below. The floating window will use the selected locale for its localized strings.")
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+            HStack {
+                PermissionFlowButton(pane: .fullDiskAccess)
+                    .environment(\.locale, .init(identifier: localizationTestLocale))
+            }
+#endif
+        }
+        .padding(24)
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(.primary.opacity(0.06))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .stroke(Color.black.opacity(0.05), lineWidth: 1)
+        )
     }
 
     private var settingsURLTestSection: some View {
@@ -311,7 +360,8 @@ struct ContentView: View {
                 symbolName: "figure.wave",
                 tint: .blue,
                 buttonTitle: "Open Accessibility",
-                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)"
+                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)",
+                localeIdentifier: localizationTestLocale
             ) { controller, sourceFrame in
                 controller.authorize(
                     pane: .accessibility,
@@ -325,7 +375,8 @@ struct ContentView: View {
                 symbolName: "externaldrive",
                 tint: .indigo,
                 buttonTitle: "Open Full Disk Access",
-                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)"
+                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)",
+                localeIdentifier: localizationTestLocale
             ) { controller, sourceFrame in
                 controller.authorize(
                     pane: .fullDiskAccess,
@@ -339,7 +390,8 @@ struct ContentView: View {
                 symbolName: "keyboard",
                 tint: .mint,
                 buttonTitle: "Open Input Monitoring",
-                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)"
+                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)",
+                localeIdentifier: localizationTestLocale
             ) { controller, sourceFrame in
                 controller.authorize(
                     pane: .inputMonitoring,
@@ -353,7 +405,8 @@ struct ContentView: View {
                 symbolName: "display",
                 tint: .green,
                 buttonTitle: "Open Screen Recording",
-                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)"
+                helperText: "Supports drag-and-drop: \(Bundle.main.bundleURL.lastPathComponent)",
+                localeIdentifier: localizationTestLocale
             ) { controller, sourceFrame in
                 controller.authorize(
                     pane: .screenRecording,
@@ -363,6 +416,7 @@ struct ContentView: View {
             }
         }
     }
+
     #endif
 
     @ViewBuilder
@@ -492,9 +546,35 @@ private struct PermissionCard: View {
     let tint: Color
     let buttonTitle: String
     let helperText: String
+    let localeIdentifier: String
     let action: (PermissionFlowController, CGRect) -> Void
 
-    @StateObject private var controller = PermissionFlow.makeController()
+    @StateObject private var controller: PermissionFlowController
+
+    init(
+        title: String,
+        subtitle: String,
+        symbolName: String,
+        tint: Color,
+        buttonTitle: String,
+        helperText: String,
+        localeIdentifier: String,
+        action: @escaping (PermissionFlowController, CGRect) -> Void
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.symbolName = symbolName
+        self.tint = tint
+        self.buttonTitle = buttonTitle
+        self.helperText = helperText
+        self.localeIdentifier = localeIdentifier
+        self.action = action
+        _controller = StateObject(
+            wrappedValue: PermissionFlow.makeController(
+                configuration: .init(localeIdentifier: localeIdentifier)
+            )
+        )
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -532,6 +612,12 @@ private struct PermissionCard: View {
                 .stroke(Color.black.opacity(0.045), lineWidth: 1)
         )
         .shadow(color: .black.opacity(0.05), radius: 14, y: 5)
+        .onAppear {
+            controller.setLocaleIdentifier(localeIdentifier)
+        }
+        .onChange(of: localeIdentifier) { localeIdentifier in
+            controller.setLocaleIdentifier(localeIdentifier)
+        }
     }
 
     private func clickSourceFrameInScreen() -> CGRect {

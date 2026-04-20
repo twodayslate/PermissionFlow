@@ -3,13 +3,14 @@ import SwiftUI
 
 @available(macOS 13.0, *)
 public struct PermissionFlowButton: View {
+    @Environment(\.locale) var locale
     @StateObject private var controller: PermissionFlowController
     private let pane: PermissionFlowPane
     private let suggestedAppURLs: [URL]
-    private let title: String
+    private let title: LocalizedStringResource?
 
     public init(
-        title: String = "授权",
+        title: LocalizedStringResource? = nil,
         pane: PermissionFlowPane,
         suggestedAppURLs: [URL] = [],
         configuration: PermissionFlowConfiguration = .init()
@@ -21,7 +22,8 @@ public struct PermissionFlowButton: View {
     }
 
     public var body: some View {
-        Button(title) {
+        Button(title ?? LocalizedStringResource("permission_flow.button.grant", locale: locale, bundle: .module)) {
+            controller.setLocaleIdentifier(locale.identifier)
             controller.authorize(
                 pane: pane,
                 suggestedAppURLs: suggestedAppURLs,

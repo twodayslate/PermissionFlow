@@ -1,5 +1,6 @@
 #if os(macOS)
 import AppKit
+import Foundation
 
 @available(macOS 13.0, *)
 public struct PermissionFlowConfiguration: Sendable {
@@ -10,12 +11,18 @@ public struct PermissionFlowConfiguration: Sendable {
     /// window observation becomes available immediately.
     public var promptForAccessibilityTrust: Bool
 
+    /// Optional locale identifier injected into the floating panel's SwiftUI
+    /// environment to override localization.
+    public var localeIdentifier: String?
+
     public init(
         requiredAppURLs: [URL] = [],
-        promptForAccessibilityTrust: Bool = false
+        promptForAccessibilityTrust: Bool = false,
+        localeIdentifier: String? = nil
     ) {
         self.requiredAppURLs = requiredAppURLs
         self.promptForAccessibilityTrust = promptForAccessibilityTrust
+        self.localeIdentifier = localeIdentifier
     }
 }
 #endif

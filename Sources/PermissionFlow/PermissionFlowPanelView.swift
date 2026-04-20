@@ -34,8 +34,7 @@ struct PermissionFlowPanelView: View {
     private var header: some View {
         HStack(alignment: .top, spacing: 3) {
             HeaderDirectionIcon(isDragging: controller.isDraggingApp)
-
-            Text("Sandbox Permission")
+            Text("permission_flow.panel.title", bundle: .module)
                 .font(.system(size: 17, weight: .semibold))
             Spacer()
             if controller.isSettingsFrontmost == false {

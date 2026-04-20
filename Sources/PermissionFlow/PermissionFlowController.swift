@@ -24,6 +24,9 @@ public final class PermissionFlowController: ObservableObject {
     /// Drives the header icon animation while the app card is being dragged.
     @Published var isDraggingApp = false
 
+    /// Drives the locale environment used by the floating SwiftUI panel.
+    @Published public private(set) var localeIdentifier: String?
+
     public var onDrop: ((URL) -> Void)?
 
     private let configuration: PermissionFlowConfiguration
@@ -36,6 +39,7 @@ public final class PermissionFlowController: ObservableObject {
     public init(configuration: PermissionFlowConfiguration = .init()) {
         self.configuration = configuration
         self.droppedApps = configuration.requiredAppURLs.uniqueAppURLs()
+        self.localeIdentifier = configuration.localeIdentifier
 
         updateFrontmostAppState()
         bindTrackerCallbacks()
@@ -95,6 +99,13 @@ public final class PermissionFlowController: ObservableObject {
 
     public func resetDroppedApps() {
         droppedApps = configuration.requiredAppURLs.uniqueAppURLs()
+    }
+
+    /// Updates the locale injected into the floating panel.
+    public func setLocaleIdentifier(_ localeIdentifier: String?) {
+        guard self.localeIdentifier != localeIdentifier else { return }
+        self.localeIdentifier = localeIdentifier
+        panel?.updateLocaleIdentifier(localeIdentifier)
     }
 
     /// Registers a unique `.app` bundle URL and notifies the host if needed.

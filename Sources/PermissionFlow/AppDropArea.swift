@@ -175,7 +175,7 @@ private struct AppDragCardContent: View {
                 Text(url.deletingPathExtension().lastPathComponent)
                     .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(.primary)
-                Text("Drag this app into the System Settings authorization list.")
+                Text("permission_flow.drag.description", bundle: .module)
                     .font(.system(size: 12))
                     .foregroundStyle(.secondary)
             }
@@ -185,7 +185,7 @@ private struct AppDragCardContent: View {
             VStack(spacing: 4) {
                 Image(systemName: "hand.draw")
                     .font(.system(size: 16, weight: .semibold))
-                Text("Drag")
+                Text("permission_flow.drag.label", bundle: .module)
                     .font(.system(size: 11, weight: .medium))
             }
             .foregroundStyle(.secondary)

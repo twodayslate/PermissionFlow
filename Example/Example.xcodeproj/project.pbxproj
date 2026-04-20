@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E01C97E12F91CE6900B95F88 /* PermissionFlow in Frameworks */ = {isa = PBXBuildFile; platformFilter = macos; productRef = E01C97E02F91CE6900B95F88 /* PermissionFlow */; };
+		E01C97E12F91CE6900B95F88 /* PermissionFlow in Frameworks */ = {isa = PBXBuildFile; productRef = E01C97E02F91CE6900B95F88 /* PermissionFlow */; };
+		E01C992D2F959CBF00B95F88 /* PermissionFlow in Frameworks */ = {isa = PBXBuildFile; productRef = E01C992C2F959CBF00B95F88 /* PermissionFlow */; };
+		E01C992F2F959CBF00B95F88 /* SystemSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = E01C992E2F959CBF00B95F88 /* SystemSettingsKit */; };
 		E0D8D0F42F91CE6900B95F88 /* SystemSettingsKit in Frameworks */ = {isa = PBXBuildFile; productRef = E0D8D0F32F91CE6900B95F88 /* SystemSettingsKit */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +31,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E01C97E12F91CE6900B95F88 /* PermissionFlow in Frameworks */,
+				E01C992D2F959CBF00B95F88 /* PermissionFlow in Frameworks */,
 				E0D8D0F42F91CE6900B95F88 /* SystemSettingsKit in Frameworks */,
+				E01C992F2F959CBF00B95F88 /* SystemSettingsKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +78,8 @@
 			packageProductDependencies = (
 				E01C97E02F91CE6900B95F88 /* PermissionFlow */,
 				E0D8D0F32F91CE6900B95F88 /* SystemSettingsKit */,
+				E01C992C2F959CBF00B95F88 /* PermissionFlow */,
+				E01C992E2F959CBF00B95F88 /* SystemSettingsKit */,
 			);
 			productName = Example;
 			productReference = E01C97D12F91CE5400B95F88 /* Example.app */;
@@ -104,7 +110,7 @@
 			mainGroup = E01C97C82F91CE5400B95F88;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				E01C97DF2F91CE6900B95F88 /* XCLocalSwiftPackageReference "../../SandboxDrop" */,
+				E01C992B2F959CBF00B95F88 /* XCLocalSwiftPackageReference "../../PermissionFlow" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E01C97D22F91CE5400B95F88 /* Products */;
@@ -266,19 +272,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GR99S2ZJZQ;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
-				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
-				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
-				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
-				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
-				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
-				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
-				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
-				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = PermissionFlowExample;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "PermissionFlow demo may open and guide System Settings for authorization.";
@@ -316,19 +312,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GR99S2ZJZQ;
-				ENABLE_APP_SANDBOX = YES;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
-				ENABLE_OUTGOING_NETWORK_CONNECTIONS = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
-				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
-				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
-				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
-				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
-				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
-				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
-				ENABLE_RESOURCE_ACCESS_USB = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = PermissionFlowExample;
 				INFOPLIST_KEY_NSAppleEventsUsageDescription = "PermissionFlow demo may open and guide System Settings for authorization.";
@@ -381,9 +367,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		E01C97DF2F91CE6900B95F88 /* XCLocalSwiftPackageReference "../../SandboxDrop" */ = {
+		E01C992B2F959CBF00B95F88 /* XCLocalSwiftPackageReference "../../PermissionFlow" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../SandboxDrop;
+			relativePath = ../../PermissionFlow;
 		};
 /* End XCLocalSwiftPackageReference section */
 
@@ -391,6 +377,14 @@
 		E01C97E02F91CE6900B95F88 /* PermissionFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PermissionFlow;
+		};
+		E01C992C2F959CBF00B95F88 /* PermissionFlow */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PermissionFlow;
+		};
+		E01C992E2F959CBF00B95F88 /* SystemSettingsKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SystemSettingsKit;
 		};
 		E0D8D0F32F91CE6900B95F88 /* SystemSettingsKit */ = {
 			isa = XCSwiftPackageProductDependency;

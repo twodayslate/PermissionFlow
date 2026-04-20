@@ -7,8 +7,8 @@ import SwiftUI
 @MainActor
 final class FloatingDropPanel: NSPanel {
     private weak var panelController: PermissionFlowController?
-    private let hostingView: NSHostingView<PermissionFlowPanelView>
-    private let sizingView: NSHostingView<PermissionFlowPanelView>
+    private let hostingView: NSHostingView<AnyView>
+    private let sizingView: NSHostingView<AnyView>
     private let initialPanelWidth: CGFloat = 420
 
     /// System Settings has a leading sidebar. Matching the trailing content
@@ -30,10 +30,12 @@ final class FloatingDropPanel: NSPanel {
     private var launchFromFrame = NSRect.zero
     private var launchToFrame = NSRect.zero
     private var isAnimatingLaunch = false
+    private var localeIdentifier: String?
 
     init(controller: PermissionFlowController) {
         panelController = controller
-        let panelView = PermissionFlowPanelView(controller: controller)
+        localeIdentifier = controller.localeIdentifier
+        let panelView = Self.makePanelView(controller: controller, localeIdentifier: controller.localeIdentifier)
         hostingView = NSHostingView(rootView: panelView)
         sizingView = NSHostingView(rootView: panelView)
         super.init(
@@ -56,6 +58,17 @@ final class FloatingDropPanel: NSPanel {
         hostingView.translatesAutoresizingMaskIntoConstraints = false
         contentView = hostingView
         setContentSize(CGSize(width: initialPanelWidth, height: measuredPanelHeight(for: initialPanelWidth)))
+    }
+
+    /// Updates the locale environment used by the floating panel content.
+    func updateLocaleIdentifier(_ localeIdentifier: String?) {
+        guard self.localeIdentifier != localeIdentifier else { return }
+        self.localeIdentifier = localeIdentifier
+        guard let panelController else { return }
+        let panelView = Self.makePanelView(controller: panelController, localeIdentifier: localeIdentifier)
+        hostingView.rootView = panelView
+        sizingView.rootView = panelView
+        setContentSize(CGSize(width: frame.width, height: measuredPanelHeight(for: frame.width)))
     }
 
     /// The panel intentionally stays non-activating so System Settings remains
@@ -296,6 +309,15 @@ final class FloatingDropPanel: NSPanel {
             width: size.width,
             height: size.height
         )
+    }
+
+    private static func makePanelView(
+        controller: PermissionFlowController,
+        localeIdentifier: String?
+    ) -> AnyView {
+        let view = PermissionFlowPanelView(controller: controller)
+        guard let localeIdentifier else { return AnyView(view) }
+        return AnyView(view.environment(\.locale, .init(identifier: localeIdentifier)))
     }
 }
 #endif
