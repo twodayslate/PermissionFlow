@@ -107,14 +107,14 @@ Platform support:
 
 `PermissionFlow` only covers these 8 privacy panes that support the floating drag-and-drop authorization workflow:
 
-- `App Management`: The system presents an app list that supports adding apps directly, which makes it a good fit for the floating drag-to-authorize helper.
-- `Accessibility`: Commonly used for window control, UI automation, and assistive interaction workflows. macOS maintains an app list that users can add to directly.
-- `Bluetooth`: The system provides an app authorization list, so the floating drag workflow can guide users directly to the correct destination.
-- `Developer Tools`: Intended for apps that need Developer Tools control permission. The system also exposes an app list that supports direct addition.
-- `Full Disk Access`: Used by apps that need broader file access, including system-level directories or other apps' data.
-- `Input Monitoring`: Used for keyboard and mouse event monitoring, often needed by shortcut tools, input enhancement apps, and some automation tools.
-- `Media & Apple Music`: The system exposes an app list for this permission, which makes it suitable for the floating drag-to-authorize workflow.
-- `Screen Recording`: Used for screenshots, screen capture, screen analysis, or assistive workflows based on screen contents.
+- `.appManagement`: Opens `Privacy & Security > App Management`.
+- `.accessibility`: Opens `Privacy & Security > Accessibility`.
+- `.bluetooth`: Opens `Privacy & Security > Bluetooth`.
+- `.developerTools`: Opens `Privacy & Security > Developer Tools`.
+- `.fullDiskAccess`: Opens `Privacy & Security > Full Disk Access`.
+- `.inputMonitoring`: Opens `Privacy & Security > Input Monitoring`.
+- `.mediaAppleMusic`: Opens `Privacy & Security > Media & Apple Music`.
+- `.screenRecording`: Opens `Privacy & Security > Screen Recording`.
 
 For every other `System Settings` page or privacy subsection, use `SystemSettingsKit`.
 
@@ -310,14 +310,14 @@ SystemSettings.open(.privacy(anchor: .security))
 
 The existing `PermissionFlowPane` type continues to handle the privacy pages used by the floating authorization workflow.
 
-- `.appManagement`: `Privacy & Security > App Management`
-- `.accessibility`: `Privacy & Security > Accessibility`
-- `.bluetooth`: `Privacy & Security > Bluetooth`
-- `.developerTools`: `Privacy & Security > Developer Tools`
-- `.fullDiskAccess`: `Privacy & Security > Full Disk Access`
-- `.inputMonitoring`: `Privacy & Security > Input Monitoring`
-- `.mediaAppleMusic`: `Privacy & Security > Media & Apple Music`
-- `.screenRecording`: `Privacy & Security > Screen Recording`
+- `.appManagement`: Opens `Privacy & Security > App Management`.
+- `.accessibility`: Opens `Privacy & Security > Accessibility`.
+- `.bluetooth`: Opens `Privacy & Security > Bluetooth`.
+- `.developerTools`: Opens `Privacy & Security > Developer Tools`.
+- `.fullDiskAccess`: Opens `Privacy & Security > Full Disk Access`.
+- `.inputMonitoring`: Opens `Privacy & Security > Input Monitoring`.
+- `.mediaAppleMusic`: Opens `Privacy & Security > Media & Apple Music`.
+- `.screenRecording`: Opens `Privacy & Security > Screen Recording`.
 
 Available typed privacy anchors and their destinations:
 
