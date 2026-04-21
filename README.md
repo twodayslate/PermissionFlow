@@ -55,6 +55,7 @@ It opens the correct privacy page automatically and, for panes that support drag
 
 ## Features
 
+- **Real-time permission status display**: Buttons automatically show whether permissions are granted with visual feedback (green checkmark for granted, blue arrow for not granted)
 - Opens the target `System Settings` privacy pane automatically
 - Animates the floating panel from the click position to the `System Settings` window
 - Follows the `System Settings` window while it moves
@@ -62,6 +63,7 @@ It opens the correct privacy page automatically and, for panes that support drag
 - Keeps only one active floating panel at a time
 - Closes the floating panel automatically when `System Settings` closes
 - Supports adaptive floating panel height based on content
+- **Intelligent permission detection**: Uses official Apple APIs for accurate permission status checking without triggering system prompts
 
 ## Requirements
 
@@ -105,16 +107,23 @@ Platform support:
 
 ## Supported Permission Panes
 
-`PermissionFlow` only covers these 8 privacy panes that support the floating drag-and-drop authorization workflow:
+`PermissionFlow` covers these 8 privacy panes that support the floating drag-and-drop authorization workflow:
 
-- `.appManagement`: Opens `Privacy & Security > App Management`.
-- `.accessibility`: Opens `Privacy & Security > Accessibility`.
-- `.bluetooth`: Opens `Privacy & Security > Bluetooth`.
-- `.developerTools`: Opens `Privacy & Security > Developer Tools`.
-- `.fullDiskAccess`: Opens `Privacy & Security > Full Disk Access`.
-- `.inputMonitoring`: Opens `Privacy & Security > Input Monitoring`.
-- `.mediaAppleMusic`: Opens `Privacy & Security > Media & Apple Music`.
-- `.screenRecording`: Opens `Privacy & Security > Screen Recording`.
+- `.accessibility`: Opens `Privacy & Security > Accessibility`. ✅ **Status Detection Supported**
+- `.fullDiskAccess`: Opens `Privacy & Security > Full Disk Access`. ✅ **Status Detection Supported**
+- `.inputMonitoring`: Opens `Privacy & Security > Input Monitoring`. ✅ **Status Detection Supported**
+- `.screenRecording`: Opens `Privacy & Security > Screen Recording`. ✅ **Status Detection Supported**
+- `.bluetooth`: Opens `Privacy & Security > Bluetooth`. ✅ **Supports status detection**
+- `.mediaAppleMusic`: Opens `Privacy & Security > Media & Apple Music`. ✅ **Supports status detection**
+- `.appManagement`: Opens `Privacy & Security > App Management`. ⚠️ Status detection not available
+- `.developerTools`: Opens `Privacy & Security > Developer Tools`. ⚠️ Status detection not available
+
+**Permission Status Display**: For supported permissions, `PermissionFlowButton` automatically displays the current authorization status:
+- ✅ **Granted**: Green checkmark icon with "Granted" text
+- ➡️ **Not Granted**: Blue arrow icon with "Grant" text  
+- Supported today: `.accessibility`, `.bluetooth`, `.fullDiskAccess`, `.inputMonitoring`, `.mediaAppleMusic`, `.screenRecording`
+- 🔄 **Checking**: Clock icon with "Checking..." text
+- ❓ **Unknown**: Blue arrow icon with "Open" text (for unsupported detection)
 
 For every other `System Settings` page or privacy subsection, use `SystemSettingsKit`.
 
@@ -133,6 +142,62 @@ struct ContentView: View {
             pane: .accessibility,
             suggestedAppURLs: [Bundle.main.bundleURL]
         )
+    }
+}
+```
+
+### Manual status display
+
+```swift
+import AppKit
+import PermissionFlow
+import SwiftUI
+
+struct ManualPermissionButton: View {
+    @StateObject private var controller = PermissionFlow.makeController()
+    @State private var authorizationState: PermissionAuthorizationState = .checking
+
+    var body: some View {
+        Button {
+            controller.authorize(
+                pane: .accessibility,
+                suggestedAppURLs: [Bundle.main.bundleURL],
+                sourceFrameInScreen: clickSourceFrameInScreen()
+            )
+        } label: {
+            Label {
+                Text(title(for: authorizationState))
+            } icon: {
+                Image(systemName: PermissionFlowButtonState.make(from: authorizationState).systemImage)
+            }
+        }
+        .onAppear(perform: refreshStatus)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            refreshStatus()
+        }
+    }
+
+    private func refreshStatus() {
+        let provider = PermissionStatusRegistry.provider(for: .accessibility)
+        authorizationState = provider.authorizationState()
+    }
+
+    private func title(for state: PermissionAuthorizationState) -> String {
+        switch state {
+        case .granted:
+            "Granted"
+        case .notGranted:
+            "Grant"
+        case .unknown:
+            "Open"
+        case .checking:
+            "Checking..."
+        }
+    }
+
+    private func clickSourceFrameInScreen() -> CGRect {
+        let mouse = NSEvent.mouseLocation
+        return CGRect(x: mouse.x - 16, y: mouse.y - 16, width: 32, height: 32)
     }
 }
 ```
@@ -410,6 +475,8 @@ The repository includes an `Example` macOS app that demonstrates all supported p
 ## Notes and Limitations
 
 - The floating helper is only shown for panes that support app-list style authorization.
+- **Permission status detection**: Uses official Apple APIs (`CGPreflightListenEventAccess`, `CGPreflightScreenCaptureAccess`, `AXIsProcessTrusted`) for accurate status checking without triggering system prompts.
+- **Status refresh**: Permission status is automatically refreshed when the app becomes active and when buttons appear on screen.
 - `System Settings` behavior is controlled by macOS and may vary slightly by OS version.
 - AX-based window tracking is used when available. Window Server frame lookup is used as fallback and bootstrap.
 - The package does not bypass macOS security. It only guides the user through the system UI.

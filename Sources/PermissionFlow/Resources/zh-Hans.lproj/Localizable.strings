@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "将此应用拖入“系统设置”中的授权列表。";
 "permission_flow.drag.label" = "拖拽";
 "permission_flow.button.grant" = "授权";
+"permission_flow.button.granted" = "已授权";
+"permission_flow.button.open" = "打开";
+"permission_flow.button.checking" = "检查中...";
+"permission_flow.button.granted" = "已授权";

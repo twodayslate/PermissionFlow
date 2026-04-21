@@ -99,7 +99,24 @@ struct ContentView: View {
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
             HStack {
+                PermissionFlowButton(title: "Accessibility", pane: .accessibility)
+                PermissionFlowButton(title: "App Management", pane: .appManagement)
+                PermissionFlowButton(title: "Bluetooth", pane: .bluetooth)
+                PermissionFlowButton(title: "Developer Tools", pane: .developerTools)
+                PermissionFlowButton(title: "Full DiskAccess", pane: .fullDiskAccess)
+                PermissionFlowButton(title: "Input Monitoring", pane: .inputMonitoring)
+                PermissionFlowButton(title: "Media AppleMusic", pane: .mediaAppleMusic)
+                PermissionFlowButton(title: "Screen Recording", pane: .screenRecording)
+            }
+            HStack {
+                PermissionFlowButton(pane: .accessibility)
+                PermissionFlowButton(pane: .appManagement)
+                PermissionFlowButton(pane: .bluetooth)
+                PermissionFlowButton(pane: .developerTools)
                 PermissionFlowButton(pane: .fullDiskAccess)
+                PermissionFlowButton(pane: .inputMonitoring)
+                PermissionFlowButton(pane: .mediaAppleMusic)
+                PermissionFlowButton(pane: .screenRecording)
             }
 #endif
         }
@@ -436,7 +453,6 @@ struct ContentView: View {
             ) { controller, sourceFrame in
                 controller.authorize(
                     pane: .accessibility,
-                    suggestedAppURLs: [Bundle.main.bundleURL],
                     sourceFrameInScreen: sourceFrame
                 )
             }

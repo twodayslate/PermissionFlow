@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "將此 App 拖入「系統設定」中的授權列表。";
 "permission_flow.drag.label" = "拖曳";
 "permission_flow.button.grant" = "授權";
+"permission_flow.button.granted" = "已授權";
+"permission_flow.button.open" = "開啟";
+"permission_flow.button.checking" = "檢查中...";
+"permission_flow.button.granted" = "已授權";

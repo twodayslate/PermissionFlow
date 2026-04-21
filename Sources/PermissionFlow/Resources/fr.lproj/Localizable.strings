@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "Faites glisser cette app dans la liste d’autorisation des Réglages Système.";
 "permission_flow.drag.label" = "Glisser";
 "permission_flow.button.grant" = "Autoriser";
+"permission_flow.button.granted" = "Autorisé";
+"permission_flow.button.open" = "Ouvrir";
+"permission_flow.button.checking" = "Vérification...";
+"permission_flow.button.granted" = "Autorisé";

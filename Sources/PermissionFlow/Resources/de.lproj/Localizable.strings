@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "Ziehe diese App in die Autorisierungsliste der Systemeinstellungen.";
 "permission_flow.drag.label" = "Ziehen";
 "permission_flow.button.grant" = "Erlauben";
+"permission_flow.button.granted" = "Erlaubt";
+"permission_flow.button.open" = "Öffnen";
+"permission_flow.button.checking" = "Überprüfung...";
+"permission_flow.button.granted" = "Erteilt";

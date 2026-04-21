@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "Arraste este app para a lista de autorização dos Ajustes do Sistema.";
 "permission_flow.drag.label" = "Arrastar";
 "permission_flow.button.grant" = "Conceder";
+"permission_flow.button.granted" = "Concedido";
+"permission_flow.button.open" = "Abrir";
+"permission_flow.button.checking" = "Verificando...";
+"permission_flow.button.granted" = "Concedido";

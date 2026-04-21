@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "Перетащите это приложение в список разрешений в «Системных настройках».";
 "permission_flow.drag.label" = "Перетащить";
 "permission_flow.button.grant" = "Разрешить";
+"permission_flow.button.granted" = "Разрешено";
+"permission_flow.button.open" = "Открыть";
+"permission_flow.button.checking" = "Проверка...";
+"permission_flow.button.granted" = "Разрешено";

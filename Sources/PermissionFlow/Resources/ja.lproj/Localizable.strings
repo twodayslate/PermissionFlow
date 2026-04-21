@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "このアプリを「システム設定」の認可リストにドラッグしてください。";
 "permission_flow.drag.label" = "ドラッグ";
 "permission_flow.button.grant" = "許可";
+"permission_flow.button.granted" = "許可済み";
+"permission_flow.button.open" = "開く";
+"permission_flow.button.checking" = "確認中...";
+"permission_flow.button.granted" = "許可済み";

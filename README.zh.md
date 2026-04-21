@@ -55,6 +55,7 @@ PermissionFlow
 
 ## 功能特性
 
+- **实时权限状态显示**：按钮自动显示权限是否已授权，提供视觉反馈（已授权显示绿色勾选，未授权显示蓝色箭头）
 - 自动打开目标 `System Settings` 隐私权限页
 - 悬浮窗口从点击位置飞入到 `System Settings` 窗口附近
 - 悬浮窗口跟随 `System Settings` 窗口移动
@@ -62,6 +63,7 @@ PermissionFlow
 - 全局只保留一个活动悬浮窗口
 - `System Settings` 关闭后自动关闭悬浮窗口
 - 悬浮窗口高度根据内容自适应
+- **智能权限检测**：使用苹果官方 API 进行准确的权限状态检查，不会触发系统提示
 
 ## 运行要求
 
@@ -107,14 +109,21 @@ dependencies: [
 
 `PermissionFlow` 只覆盖支持悬浮框 + 拖拽授权的这 8 个权限页：
 
-- `.appManagement`：打开 `隐私与安全性 > App Management`。
-- `.accessibility`：打开 `隐私与安全性 > Accessibility`。
-- `.bluetooth`：打开 `隐私与安全性 > Bluetooth`。
-- `.developerTools`：打开 `隐私与安全性 > Developer Tools`。
-- `.fullDiskAccess`：打开 `隐私与安全性 > Full Disk Access`。
-- `.inputMonitoring`：打开 `隐私与安全性 > Input Monitoring`。
-- `.mediaAppleMusic`：打开 `隐私与安全性 > Media & Apple Music`。
-- `.screenRecording`：打开 `隐私与安全性 > Screen Recording`。
+- `.accessibility`：打开 `隐私与安全性 > 辅助功能`。✅ **支持状态检测**
+- `.fullDiskAccess`：打开 `隐私与安全性 > 完全磁盘访问权限`。✅ **支持状态检测**
+- `.inputMonitoring`：打开 `隐私与安全性 > 输入监控`。✅ **支持状态检测**
+- `.screenRecording`：打开 `隐私与安全性 > 屏幕录制`。✅ **支持状态检测**
+- `.bluetooth`：打开 `隐私与安全性 > 蓝牙`。✅ **支持状态检测**
+- `.mediaAppleMusic`：打开 `隐私与安全性 > 媒体与 Apple Music`。✅ **支持状态检测**
+- `.appManagement`：打开 `隐私与安全性 > App 管理`。⚠️ 状态检测不可用
+- `.developerTools`：打开 `隐私与安全性 > 开发者工具`。⚠️ 状态检测不可用
+
+**权限状态显示**：对于支持的权限，`PermissionFlowButton` 自动显示当前授权状态：
+
+- ✅ **已授权**：绿色勾选图标，显示"已授权"文字
+- ➡️ **未授权**：蓝色箭头图标，显示"授权"文字
+- 🔄 **检查中**：时钟图标，显示"检查中..."文字
+- ❓ **未知**：蓝色箭头图标，显示"打开"文字（不支持检测时）
 
 其它所有 `System Settings` 页面或隐私子页面，请使用 `SystemSettingsKit`。
 
@@ -137,6 +146,62 @@ struct ContentView: View {
 }
 ```
 
+### 手动控制状态显示
+
+```swift
+import AppKit
+import PermissionFlow
+import SwiftUI
+
+struct ManualPermissionButton: View {
+    @StateObject private var controller = PermissionFlow.makeController()
+    @State private var authorizationState: PermissionAuthorizationState = .checking
+
+    var body: some View {
+        Button {
+            controller.authorize(
+                pane: .accessibility,
+                suggestedAppURLs: [Bundle.main.bundleURL],
+                sourceFrameInScreen: clickSourceFrameInScreen()
+            )
+        } label: {
+            Label {
+                Text(title(for: authorizationState))
+            } icon: {
+                Image(systemName: PermissionFlowButtonState.make(from: authorizationState).systemImage)
+            }
+        }
+        .onAppear(perform: refreshStatus)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            refreshStatus()
+        }
+    }
+
+    private func refreshStatus() {
+        let provider = PermissionStatusRegistry.provider(for: .accessibility)
+        authorizationState = provider.authorizationState()
+    }
+
+    private func title(for state: PermissionAuthorizationState) -> String {
+        switch state {
+        case .granted:
+            "已授权"
+        case .notGranted:
+            "授权"
+        case .unknown:
+            "打开"
+        case .checking:
+            "检查中..."
+        }
+    }
+
+    private func clickSourceFrameInScreen() -> CGRect {
+        let mouse = NSEvent.mouseLocation
+        return CGRect(x: mouse.x - 16, y: mouse.y - 16, width: 32, height: 32)
+    }
+}
+```
+
 ### 手动使用 Controller
 
 如果你希望自己控制触发时机，可以直接使用 `PermissionFlowController`：
@@ -150,10 +215,7 @@ final class PermissionViewModel: ObservableObject {
     private let controller = PermissionFlow.makeController()
 
     func requestFullDiskAccess() {
-        controller.authorize(
-            pane: .fullDiskAccess,
-            suggestedAppURLs: [Bundle.main.bundleURL]
-        )
+        controller.authorize(pane: .fullDiskAccess)
     }
 }
 ```
@@ -183,7 +245,6 @@ final class PermissionViewModel: ObservableObject {
 
         controller.authorize(
             pane: .accessibility,
-            suggestedAppURLs: [Bundle.main.bundleURL],
             sourceFrameInScreen: sourceFrame
         )
     }
@@ -312,11 +373,11 @@ SystemSettings.open(.privacy(anchor: .security))
 
 - `.appManagement`：打开 `隐私与安全性 > App Management`。
 - `.accessibility`：打开 `隐私与安全性 > Accessibility`。
-- `.bluetooth`：打开 `隐私与安全性 > Bluetooth`。
+- `.bluetooth`：打开 `隐私与安全性 > Bluetooth`。✅ **支持状态检测**
 - `.developerTools`：打开 `隐私与安全性 > Developer Tools`。
 - `.fullDiskAccess`：打开 `隐私与安全性 > Full Disk Access`。
 - `.inputMonitoring`：打开 `隐私与安全性 > Input Monitoring`。
-- `.mediaAppleMusic`：打开 `隐私与安全性 > Media & Apple Music`。
+- `.mediaAppleMusic`：打开 `隐私与安全性 > Media & Apple Music`。✅ **支持状态检测**
 - `.screenRecording`：打开 `隐私与安全性 > Screen Recording`。
 
 当前内置的隐私与安全性强类型锚点，以及它们实际跳转到的位置：
@@ -410,6 +471,8 @@ let configuration = PermissionFlowConfiguration(
 ## 注意事项
 
 - 悬浮辅助窗口只会在支持拖拽式授权的权限页上出现
+- **权限状态检测**：使用苹果官方 API（`CGPreflightListenEventAccess`、`CGPreflightScreenCaptureAccess`、`AXIsProcessTrusted`）进行准确的状态检查，不会触发系统提示
+- **状态刷新**：当应用回到前台以及按钮出现在屏幕上时，权限状态会自动刷新
 - `System Settings` 的具体行为由 macOS 控制，不同系统版本可能存在细微差异
 - 当辅助功能权限可用时，包会优先使用 AX 做更精确的窗口跟踪；Window Server 查询作为启动和兜底方案
 - 这个包不会绕过 macOS 的系统安全模型，它只是帮助用户更顺畅地完成系统授权流程

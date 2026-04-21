@@ -49,6 +49,18 @@ public final class PermissionFlowController: ObservableObject {
     }
 
     /// Opens the requested privacy pane and starts the floating guidance flow.
+    ///
+    /// - Parameters:
+    ///   - pane: The permission pane to open inside System Settings.
+    ///   - suggestedAppURLs: Optional `.app` bundle URLs that should appear in
+    ///     the floating panel as drag candidates. This parameter defaults to an
+    ///     empty array, which means no explicit app list is injected here.
+    ///     When this value is empty and no previously registered app is
+    ///     available, the floating panel falls back to `Bundle.main.bundleURL`
+    ///     if the current host bundle is itself an `.app`.
+    ///   - sourceFrameInScreen: Optional source rect in screen coordinates used
+    ///     as the launch point for the fly-to-settings animation. If omitted,
+    ///     the panel still appears, but it skips the source-origin animation.
     public func authorize(
         pane: PermissionFlowPane,
         suggestedAppURLs: [URL] = [],

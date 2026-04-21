@@ -2,3 +2,7 @@
 "permission_flow.drag.description" = "اسحب هذا التطبيق إلى قائمة التفويض في إعدادات النظام.";
 "permission_flow.drag.label" = "سحب";
 "permission_flow.button.grant" = "منح";
+"permission_flow.button.granted" = "ممنوح";
+"permission_flow.button.open" = "فتح";
+"permission_flow.button.checking" = "جاري التحقق...";
+"permission_flow.button.granted" = "ممنوح";
