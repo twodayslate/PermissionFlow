@@ -38,6 +38,8 @@
 
 [English](./README.md) • [安装](#安装) • [对外 API](#对外-api) • [System Settings URL Scheme](#system-settings-url-scheme)
 
+`PermissionFlow` 是一个面向 macOS 的权限引导库：它会打开目标 `System Settings` 隐私权限页，并在支持拖拽授权的页面上显示一个跟随系统设置窗口的悬浮面板，让用户可以直接把当前 `.app` 拖入权限列表。项目同时内置 `SystemSettingsKit`，用于以强类型方式 deeplink 到 `System Settings` 的页面和子页面。
+
 <hr>
 
 PermissionFlow
