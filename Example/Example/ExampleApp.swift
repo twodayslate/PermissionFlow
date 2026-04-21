@@ -12,11 +12,11 @@ import PermissionFlowExtendedStatus
 
 @main
 struct ExampleApp: App {
-//    init() {
-//#if os(macOS)
-//        PermissionFlowExtendedStatus.register()
-//#endif
-//    }
+    init() {
+#if os(macOS)
+        PermissionFlowExtendedStatus.register()
+#endif
+    }
 
     var body: some Scene {
         WindowGroup {
