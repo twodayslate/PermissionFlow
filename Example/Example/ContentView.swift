@@ -302,7 +302,7 @@ struct ContentView: View {
             settingsURLGroup(
                 title: "System & Advanced Pages",
                 buttons: {
-                    settingsURLButton(title: "AirDrop & Handoff", symbolName: "handoff", tint: .mint) { SystemSettings.open(SystemSettingsDestination(paneIdentifier: "com.apple.AirDrop-Handoff-Settings.extension")) }
+                    settingsURLButton(title: "AirDrop & Handoff", symbolName: "arrow.left.arrow.right.circle", tint: .mint) { SystemSettings.open(SystemSettingsDestination(paneIdentifier: "com.apple.AirDrop-Handoff-Settings.extension")) }
                     settingsURLButton(title: "CDs & DVDs", symbolName: "opticaldiscdrive", tint: .orange) { SystemSettings.open(SystemSettingsDestination(paneIdentifier: "com.apple.CD-DVD-Settings.extension")) }
                     settingsURLButton(title: "Coverage", symbolName: "checkmark.shield", tint: .green) { SystemSettings.open(SystemSettingsDestination(paneIdentifier: "com.apple.Coverage-Settings.extension")) }
                     settingsURLButton(title: "Family Sharing", symbolName: "person.3", tint: .pink) { SystemSettings.open(SystemSettingsDestination(paneIdentifier: "com.apple.Family-Settings.extension")) }

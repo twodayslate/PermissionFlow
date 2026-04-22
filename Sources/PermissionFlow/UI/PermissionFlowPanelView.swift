@@ -34,8 +34,7 @@ struct PermissionFlowPanelView: View {
     private var header: some View {
         HStack(alignment: .top, spacing: 3) {
             HeaderDirectionIcon(isDragging: controller.isDraggingApp)
-            Text("permission_flow.panel.title", bundle: .module)
-                .font(.system(size: 16, weight: .semibold))
+            Text(headerTitle).font(.system(size: 14))
             Spacer()
             HStack(alignment: .top, spacing: 3) {
                 if controller.isSettingsFrontmost == false {
@@ -60,6 +59,58 @@ struct PermissionFlowPanelView: View {
                 .buttonStyle(.borderless)
             }
         }
+    }
+
+    /// Builds a markdown-backed localized title such as:
+    /// "Drag **Example** to the list above to allow **Accessibility**."
+    private var headerTitle: AttributedString {
+        let localizedTemplate = PermissionFlowLocalizer.string(
+            "permission_flow.panel.title",
+            defaultValue: "Drag **%@** to the list above to allow **%@**.",
+            localeIdentifier: controller.localeIdentifier
+        )
+
+        let markdown = String(
+            format: localizedTemplate,
+            locale: localizationLocale,
+            appDisplayName,
+            paneDisplayTitle
+        )
+
+        return (try? AttributedString(
+            markdown: markdown,
+            options: AttributedString.MarkdownParsingOptions(interpretedSyntax: .inlineOnlyPreservingWhitespace)
+        )) ?? AttributedString(markdown)
+    }
+
+    /// Prefers the Finder-style display name so the title reads naturally even
+    /// when the URL contains a plain bundle filename.
+    private var appDisplayName: String {
+        guard let appURL = controller.preferredAppURL else {
+            return PermissionFlowLocalizer.string(
+                "permission_flow.app.this_app",
+                defaultValue: "This App",
+                localeIdentifier: controller.localeIdentifier
+            )
+        }
+
+        return FileManager.default.displayName(atPath: appURL.path)
+    }
+
+    /// Uses the current pane's localized title so each permission can render a
+    /// specific instruction in the shared panel title template.
+    private var paneDisplayTitle: String {
+        controller.currentPane?.localizedTitle(localeIdentifier: controller.localeIdentifier)
+            ?? PermissionFlowLocalizer.string(
+                "permission_flow.pane.permission",
+                defaultValue: "Permission",
+                localeIdentifier: controller.localeIdentifier
+            )
+    }
+
+    /// Uses the explicitly injected panel locale when available.
+    private var localizationLocale: Locale {
+        controller.localeIdentifier.map(Locale.init(identifier:)) ?? .current
     }
 }
 

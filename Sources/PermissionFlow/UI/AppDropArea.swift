@@ -163,38 +163,32 @@ private struct AppDragCardContent: View {
     let url: URL
 
     var body: some View {
-        // The surrounding AppKit view owns the drag gesture. This SwiftUI view
-        // only renders the card content.
         HStack(spacing: 8) {
             Image(nsImage: NSWorkspace.shared.icon(forFile: url.path))
                 .resizable()
-                .frame(width: 40, height: 40)
+                .frame(width: 32, height: 32)
                 .cornerRadius(10)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(url.deletingPathExtension().lastPathComponent)
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.system(size: 16, weight: .regular))
                     .foregroundStyle(.primary)
-                Text("permission_flow.drag.description", bundle: .module)
-                    .font(.system(size: 12))
-                    .foregroundStyle(.secondary)
             }
-
             Spacer()
-
-            VStack(spacing: 4) {
+            VStack(spacing: 0) {
                 Image(systemName: "hand.draw")
-                    .font(.system(size: 16, weight: .semibold))
+                    .font(.system(size: 14, weight: .regular))
                 Text("permission_flow.drag.label", bundle: .module)
-                    .font(.system(size: 11, weight: .medium))
+                    .font(.system(size: 8, weight: .light))
             }
             .foregroundStyle(.secondary)
+            .padding(.trailing, 6)
         }
-        .padding(8)
-        .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .padding(6)
+        .background(.background.opacity(0.65), in: RoundedRectangle(cornerRadius: 16, style: .continuous))
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .stroke(.white.opacity(0.20), style: StrokeStyle(lineWidth: 1, dash: [6, 6]))
+                .stroke(.primary.opacity(0.085), style: StrokeStyle(lineWidth: 1, dash: []))
         )
     }
 }
