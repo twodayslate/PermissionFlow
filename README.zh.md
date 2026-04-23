@@ -213,7 +213,9 @@ struct ManualPermissionButton: View {
     @StateObject private var controller = PermissionFlow.makeController()
     @State private var authorizationState: PermissionAuthorizationState = .checking
 
-    let didBecomeActive = NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
+    let didBecomeActive = NotificationCenter.default.publisher(
+        for: NSApplication.didBecomeActiveNotification
+    )
     
     var body: some View {
         Button {
@@ -226,7 +228,8 @@ struct ManualPermissionButton: View {
             Label {
                 Text(title(for: authorizationState))
             } icon: {
-                let icon = PermissionFlowButtonState.make(from: authorizationState).systemImage
+                let icon = PermissionFlowButtonState
+                    .make(from: authorizationState).systemImage
                 Image(systemName: icon)
             }
         }
